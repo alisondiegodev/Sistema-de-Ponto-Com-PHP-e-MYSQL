@@ -53,10 +53,11 @@ extract($row_ponto);
             ?>
             <h1>Registrar Ponto</h1>
             <ul class="lista-pontos">
-                <li><p>Entrada: </p> <span><?= $entrada ?></span></li>
+                <li><p>Entrada: </p> <span id="entrada"><?= $entrada?></span></li> 
                 <li><p>Saida Intervalo: </p> <span><?= $saida_intervalo ?></span></li>
                 <li><p>Retorno Intervalo: </p> <span><?= $retorno_intervalo ?></span></li>
                 <li><p>Saida: </p> <span><?= $saida?></span></li>
+                <li><p>Horario Limite: </p> <span id="limite"></span></li>
 
             </ul>
             
@@ -67,11 +68,15 @@ extract($row_ponto);
 
         </div>
 
-
+        <script
+  src="https://code.jquery.com/jquery-3.6.3.min.js"
+  integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+  crossorigin="anonymous"></script>
     <script>
+        //PEGA ELEMENTO HORARIO
         var apHorario = document.getElementById('horario');
 
-
+        //ATUALIZA O HORARIO A CADA SEGUNDO
         function atualizarHorario() {
             var data = new Date().toLocaleTimeString("pt-br", {
                 timeZone: "America/Sao_Paulo"
@@ -81,6 +86,29 @@ extract($row_ponto);
         }
 
         setInterval(atualizarHorario, 1000);
+
+        //PEGA ELEMENOS DO HTML
+        var limite = document.getElementById('limite');
+        var entrada = document.getElementById('entrada').innerHTML;
+
+        // TRANSFORMA O HORARIO EM UM ARRAY      
+        var entrada_array = entrada.split(':');
+
+        // TRATA OS DADOS, TRANSFORMANDO A STRING DE CADA ITEM DO ARRAY EM UM INTEIRO
+        var entrada_hora = parseInt(entrada_array[0]);
+        var entrada_min = parseInt(entrada_array[1]);
+        
+        function horarioLimite() {
+            if (entrada != null) {
+                // FAZ O CALCULO
+                soma = entrada_hora + 10 + ":" + (entrada_min + 10);
+                //PRINTA DENTRO DO SPAN
+                limite.innerHTML = soma;
+            }
+        }
+        horarioLimite();
+
+
     </script>
 </body>
 
